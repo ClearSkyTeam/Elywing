@@ -22,7 +22,7 @@
 namespace pocketmine\level;
 
 use pocketmine\block\Block;
-use pocketmine\level\format\Chunk;
+use pocketmine\level\format\FullChunk;
 use pocketmine\math\Vector3;
 
 /**
@@ -75,32 +75,32 @@ interface ChunkLoader{
 	/**
 	 * This method will be called when a Chunk is replaced by a new one
 	 *
-	 * @param Chunk $chunk
+	 * @param FullChunk $chunk
 	 */
-	public function onChunkChanged(Chunk $chunk);
+	public function onChunkChanged(FullChunk $chunk);
 
 	/**
 	 * This method will be called when a registered chunk is loaded
 	 *
-	 * @param Chunk $chunk
+	 * @param FullChunk $chunk
 	 */
-	public function onChunkLoaded(Chunk $chunk);
+	public function onChunkLoaded(FullChunk $chunk);
 
 
 	/**
 	 * This method will be called when a registered chunk is unloaded
 	 *
-	 * @param Chunk $chunk
+	 * @param FullChunk $chunk
 	 */
-	public function onChunkUnloaded(Chunk $chunk);
+	public function onChunkUnloaded(FullChunk $chunk);
 
 	/**
 	 * This method will be called when a registered chunk is populated
 	 * Usually it'll be sent with another call to onChunkChanged()
 	 *
-	 * @param Chunk $chunk
+	 * @param FullChunk $chunk
 	 */
-	public function onChunkPopulated(Chunk $chunk);
+	public function onChunkPopulated(FullChunk $chunk);
 
 	/**
 	 * This method will be called when a block changes in a registered chunk

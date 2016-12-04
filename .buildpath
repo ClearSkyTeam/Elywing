@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="src/pocketmine"/>
+	<buildpathentry kind="src" path="src/raklib"/>
+	<buildpathentry kind="src" path="src/spl"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>
