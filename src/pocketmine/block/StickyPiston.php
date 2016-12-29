@@ -32,7 +32,7 @@ class StickyPiston extends Solid{
 		$this->meta = $meta;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Sticky Piston";
 	}
 

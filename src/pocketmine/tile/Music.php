@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\tile;
 
-use pocketmine\level\format\FullChunk;
+use pocketmine\level\format\Chunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\IntTag;
@@ -10,7 +10,7 @@ use pocketmine\tile\Spawnable;
 
 class Music extends Spawnable{
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+	public function __construct(Chunk $chunk, CompoundTag $nbt){
 		if(!isset($nbt->note)){
 			$nbt->note = new ByteTag("note", 0);
 		}

@@ -19,7 +19,7 @@ class Piston extends Spawnable{
 		parent::saveNBT();
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return 'Piston';
 	}
 

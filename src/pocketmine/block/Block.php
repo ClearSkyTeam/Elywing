@@ -101,7 +101,7 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::IRON_BLOCK] = Iron::class;
 			self::$list[self::DOUBLE_SLAB] = DoubleSlab::class;
 			self::$list[self::SLAB] = Slab::class;
-			self::$list[self::RED_SANDSTONE_SLAB] = RedSandstoneSlab::class;
+			self::$list[self::SLAB2] = Slab2::class;
 			self::$list[self::DOUBLE_RED_SANDSTONE_SLAB] = DoubleRedSandstoneSlab::class;
 			self::$list[self::BRICKS_BLOCK] = Bricks::class;
 			self::$list[self::TNT] = TNT::class;
@@ -533,7 +533,7 @@ class Block extends Position implements BlockIds, Metadatable{
 	 * @return string
 	 */
 	 
-	public function getName() : string{
+	public function getName(){
 		return "Unknown";
 	}
 	/**
