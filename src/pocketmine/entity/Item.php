@@ -35,7 +35,6 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\Network;
 use pocketmine\network\protocol\AddItemEntityPacket;
 use pocketmine\Player;
-use pocketmine\item\Item;
 
 class Item extends Entity{
 	const NETWORK_ID = 64;
@@ -75,7 +74,7 @@ class Item extends Entity{
 			$this->close();
 			return;
 		}
-		$this->item = Item::nbtDeserialize($this->namedtag->Item);
+		$this->item = ItemItem::nbtDeserialize($this->namedtag->Item);
 		if($this->item->getId() <= 0){
 			$this->close();
 			return;
