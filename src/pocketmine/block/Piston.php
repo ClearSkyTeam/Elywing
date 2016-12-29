@@ -29,8 +29,8 @@ class Piston extends Solid{
 		$this->meta = $meta;
 	}
 
-	public function getName(){
-        return "Piston";
+	public function getName() : string{
+		return "Piston";
 	}
 
 }
