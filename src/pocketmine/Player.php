@@ -103,7 +103,7 @@ use pocketmine\item\FoodSource;
 use pocketmine\item\Item;
 use pocketmine\item\Potion;
 use pocketmine\level\ChunkLoader;
-use pocketmine\level\format\Chunk;
+use pocketmine\level\format\FullChunk;
 use pocketmine\level\Level;
 use pocketmine\level\Location;
 use pocketmine\level\Position;
@@ -916,7 +916,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return $this->spawnPosition instanceof WeakPosition and $this->spawnPosition->isValid();
 	}
 
-	public function sendChunk($x, $z, $payload){
+	public function sendChunk($x, $z, $payload, $ordering = FullChunkDataPacket::ORDER_COLUMNS){
 		if($this->connected === false){
 			return;
 		}
@@ -930,6 +930,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk = new FullChunkDataPacket();
 			$pk->chunkX = $x;
 			$pk->chunkZ = $z;
+			$pk->order = $ordering;
 			$pk->data = $payload;
 			$this->batchDataPacket($pk);
 		}
@@ -4326,20 +4327,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 
-	public function onChunkChanged(Chunk $chunk){
+	public function onChunkChanged(FullChunk $chunk){
 		$this->loadQueue[Level::chunkHash($chunk->getX(), $chunk->getZ())] = abs(($this->x >> 4) - $chunk->getX()) + abs(($this->z >> 4) - $chunk->getZ());
 	}
 
-	public function onChunkLoaded(Chunk $chunk){
-
+	public function onChunkLoaded(FullChunk $chunk){
 	}
 
-	public function onChunkPopulated(Chunk $chunk){
-
+	public function onChunkPopulated(FullChunk $chunk){
 	}
 
-	public function onChunkUnloaded(Chunk $chunk){
-
+	public function onChunkUnloaded(FullChunk $chunk){
 	}
 
 	public function onBlockChanged(Vector3 $block){
@@ -4355,26 +4353,27 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	/**
-	 * @param     $chunkX
-	 * @param     $chunkZ
-	 * @param     $payload
-	 * @param int $ordering
-	 * @return BatchPacket|FullChunkDataPacket
+	 * @param int    $chunkX
+	 * @param int    $chunkZ
+	 * @param string $payload
+	 * @param int    $ordering
+	 *
+	 * @return DataPacket
 	 */
-	public static function getChunkCacheFromData($chunkX, $chunkZ, $payload){
+	public static function getChunkCacheFromData($chunkX, $chunkZ, $payload, $ordering = FullChunkDataPacket::ORDER_COLUMNS){
 		$pk = new FullChunkDataPacket();
 		$pk->chunkX = $chunkX;
 		$pk->chunkZ = $chunkZ;
+		$pk->order = $ordering;
 		$pk->data = $payload;
-		if(Network::$BATCH_THRESHOLD >= 0){
-			$pk->encode();
-			$batch = new BatchPacket();
-			$batch->payload = zlib_encode(Binary::writeUnsignedVarInt(strlen($pk->getBuffer())) . $pk->getBuffer(), ZLIB_ENCODING_DEFLATE, Server::getInstance()->networkCompressionLevel);
-			$batch->encode();
-			$batch->isEncoded = true;
-			return $batch;
-		}
-		return $pk;
+		$pk->encode();
+
+		$batch = new BatchPacket();
+		$batch->payload = zlib_encode(Binary::writeUnsignedVarInt(strlen($pk->getBuffer())) . $pk->getBuffer(), ZLIB_ENCODING_DEFLATE, Server::getInstance()->networkCompressionLevel);
+
+		$batch->encode();
+		$batch->isEncoded = true;
+		return $batch;
 	}
 
 	/**
